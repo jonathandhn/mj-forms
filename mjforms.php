@@ -1,7 +1,7 @@
 <?php
 /**
  * @package Mj Forms
- * @version 1.0.0
+ * @version 1.0.1
  */
 /*
 Plugin Name: Mj Forms

@@ -1,6 +1,6 @@
 === MJ FORMS ===
 Contributors: Jonathan DAHAN
-Stable tag: 1.0.0
+Stable tag: 1.0.1
 Tested up to: 5.8
 Requires at least: 5.8
 
