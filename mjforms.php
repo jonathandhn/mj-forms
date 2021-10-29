@@ -27,14 +27,3 @@ add_action( 'elementor_pro/init', function() {
 	// Register the action with form widget
 	\ElementorPro\Plugin::instance()->modules_manager->get_modules( 'forms' )->add_form_action( $mailjet_action->get_name(), $mailjet_action );
 });
-
-add_action( 'elementor_pro/init', function() {
-	// Here its safe to include our action class file
-	include_once( MJ_FORM_PATH . 'ActionDNC.php');
-
-	// Instantiate the action class
-	$mailjetDNC_action = new MailjetDNC_Action_After_Submit();
-
-	// Register the action with form widget
-	\ElementorPro\Plugin::instance()->modules_manager->get_modules( 'forms' )->add_form_action( $mailjetDNC_action->get_name(), $mailjetDNC_action );
-});
