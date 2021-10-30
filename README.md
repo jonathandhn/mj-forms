@@ -5,5 +5,6 @@ Manage your Mailjet subscribers with elementor forms.
 
 Add your API Key and API Secret on wp-config.php
 
-define( 'MAILJET_API', '' );
-define( 'MAILJET_SECRET', '' );
+```define( 'MAILJET_API', '' );```
+
+```define( 'MAILJET_SECRET', '' );```
