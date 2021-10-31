@@ -29,20 +29,34 @@ class MJF_Subscribe_Action_After_Submit extends \ElementorPro\Modules\Forms\Clas
             $fields[$id] = $field['value'];
         }
 
-        $MJF_data = ['Email' => $fields['email']];
-        $MJF_contactdata = [ 'Name' => $settings['MJF_name_field'], 'Value' => $fields['name'], 'Name' => $settings['MJF_firstname_field'], 'Value' => $fields['fname'],'Name' => $settings['MJF_phone_field'], 'Value' => $fields['phone'],];
-        $MJF_data_step2 = ['Email' => $fields['email'], 'Action' => 'addforce', ];
+        $MJF_data = ['Email' => $fields['email'], 'Name' => $fields['name']];
+        $MJF_contactdata = [
+            'Data' => [
+              [
+                'Name' => $settings['MJF_name_field'],
+                'Value' => $fields['name'],
+                'Name' => $settings['MJF_firstname_field'],
+                'Value' => $fields['fname'],
+                'Name' => $settings['MJF_phone_field'],
+                'Value' => $fields['phone'],
+              ]
+            ]
+          ];
+        $MJF_data_step2 = ['Email' => $fields['email'], 'Action' => 'addforce'];
 
+
+       
         $MJF_API = MAILJET_API;
         $MJF_SECRET = MAILJET_SECRET;
-        $MJF_auth = base64_encode($MJF_API . ':' . $MJF_SECRET);
+        $auth = base64_encode($MJF_API . ':' . $MJF_SECRET);
 
-        $MJF_data_args = ['headers' => ['Authorization' => "Basic  $MJF_auth"], 'body' =>    $MJF_data, ];
-        $MJF_contactdata_args = ['headers' => ['Authorization' => "Basic  $MJF_auth"], 'body' =>    $MJF_contactdata, ];
-        $MJF_data_step2_args = ['headers' => ['Authorization' => "Basic  $MJF_auth"], 'body' =>   $MJF_data_step2, ];
+        $MJF_data_args = ['headers' => ['Authorization' => "Basic $auth"], 'body' =>    $MJF_data, ];
+        $MJF_contactdata_args = ['method' => 'PUT', 'headers' => ['Authorization' => "Basic $auth"], 'body' =>    $MJF_contactdata, ];
+        $MJF_data_step2_args = ['headers' => ['Authorization' => "Basic $auth"], 'body' =>   $MJF_data_step2, ];
+
 
         $MJF_responsecontact = wp_remote_post('https://api.mailjet.com/v3/REST/contact',  $MJF_data_args);  
-        $MJF_responsecontactdata = wp_remote_post('https://api.mailjet.com/v3/REST/contactdata/' . $fields['email'],  $MJF_contactdata_args);
+        $MJF_responsecontactdata = wp_remote_request('https://api.mailjet.com/v3/REST/contactdata/' . $fields['email'], $MJF_contactdata_args);
         $MJF_responsecontactslist = wp_remote_post('https://api.mailjet.com/v3/REST/contactslist/' . $settings['MJF_listID'] . '/managecontact', $MJF_data_step2_args);
 
     }
@@ -51,13 +65,13 @@ class MJF_Subscribe_Action_After_Submit extends \ElementorPro\Modules\Forms\Clas
     {
         $widget->start_controls_section('section_MJF', ['label' => __('Mailjet', 'text-domain') , 'condition' => ['submit_actions' => $this->get_name() , ], ]);
 
-        $widget->add_control('MJF_listID', ['label' => __('Mailjet List ID', 'text-domain') , 'type' => \Elementor\Controls_Manager::TEXT, 'separator' => 'before', 'description' => __('the list id you want to subscribe a user to.', 'text-domain') , ]);
+        $widget->add_control('MJF_listID', ['label' => __('Mailjet List ID', 'text-domain') , 'type' => \Elementor\Controls_Manager::TEXT, 'separator' => 'before', 'description' => __('Insert the list id you want to subscribe a user to.', 'text-domain') , ]);
 
-        $widget->add_control('MJF_firstname_field', ['label' => __('Mailjet FirstName field', 'text-domain') , 'type' => \Elementor\Controls_Manager::TEXT, 'separator' => 'before', 'description' => __('Name your mailjet firstname contact field.', 'text-domain') , ]);
+        $widget->add_control('MJF_firstname_field', ['label' => __('Mailjet FirstName field', 'text-domain') , 'type' => \Elementor\Controls_Manager::TEXT, 'separator' => 'before', 'description' => __('Set your mailjet firstname contact field.', 'text-domain') , ]);
 
-        $widget->add_control('MJF_name_field', ['label' => __('Mailjet LastName field', 'text-domain') , 'type' => \Elementor\Controls_Manager::TEXT, 'separator' => 'before', 'description' => __('Name your mailjet lastname contact field.', 'text-domain') , ]);
+        $widget->add_control('MJF_name_field', ['label' => __('Mailjet LastName field', 'text-domain') , 'type' => \Elementor\Controls_Manager::TEXT, 'separator' => 'before', 'description' => __('Set your mailjet lastname contact field.', 'text-domain') , ]);
 
-        $widget->add_control('MJF_phone_field', ['label' => __('Mailjet Phone field', 'text-domain') , 'type' => \Elementor\Controls_Manager::TEXT, 'separator' => 'before', 'description' => __('Name your mailjet contact phone field.', 'text-domain') , ]);
+        $widget->add_control('MJF_phone_field', ['label' => __('Mailjet Phone field', 'text-domain') , 'type' => \Elementor\Controls_Manager::TEXT, 'separator' => 'before', 'description' => __('Set your mailjet contact phone field.', 'text-domain') , ]);
 
         $widget->end_controls_section();
 

@@ -4,19 +4,21 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Mj Forms 1.0.1\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/mj-forms\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "POT-Creation-Date: 2021-10-30T21:38:06+00:00\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"X-Generator: WP-CLI 2.5.0\n"
+"PO-Revision-Date: 2021-10-31 00:03+0200\n"
+"X-Generator: Poedit 3.0\n"
 "X-Domain: mj-forms\n"
+"Last-Translator: Jonathan DAHAN <getintouchwith@jonathanphoto.fr>\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"Language: fr_FR\n"
 
 #. Plugin Name of the plugin
 msgid "Mj Forms"
-msgstr ""
+msgstr "Formulaires Mj"
 
 #. Plugin URI of the plugin
 msgid "https://github.com/jonathandhn/mj-forms"
@@ -24,7 +26,7 @@ msgstr ""
 
 #. Description of the plugin
 msgid "Manage your Mailjet subscribers with elementor forms."
-msgstr ""
+msgstr "Gérez vos abonnés Mailjet avec elementor forms."
 
 #. Author of the plugin
 msgid "Jonathan DAHAN"
@@ -36,25 +38,24 @@ msgstr ""
 
 #. Elementor setting item for Mailjet Subscribe Action
 msgid "Mailjet Subscribe"
-msgstr ""
+msgstr "Mailjet Inscription"
 
 #. Plugin setting of the Mailjet list ID
 msgid "Mailjet List ID"
-msgstr ""
+msgstr "Mailjet Liste ID"
 
 #. Plugin setting of the Mailjet list ID description
 msgid "Insert the list id you want to subscribe a user to."
-msgstr ""
+msgstr "Insérer l’identifiant de la liste que vous souhaitez utiliser."
 
 #. Plugin setting of the Mailjet firstname field
 msgid "Set your mailjet firstname contact field."
-msgstr ""
+msgstr "Configurez votre champs pour le prénom dans Mailjet."
 
 #. Plugin setting of the Mailjet lastname field
 msgid "Set your mailjet lastname contact field."
-msgstr "
+msgstr "Configurez votre champs pour le nom dans Mailjet."
 
 #. Plugin setting of the Mailjet phone field
 msgid "Set your mailjet contact phone field."
-msgstr "
-
+msgstr "Configurez votre champs pour le téléphone dans Mailjet."

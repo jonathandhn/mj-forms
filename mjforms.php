@@ -5,11 +5,12 @@
  */
 /*
 Plugin Name: Mj Forms
-Plugin URI: https://jonathanphoto.fr
+Plugin URI: https://github.com/jonathandhn/mj-forms
 Description: Manage your Mailjet subscribers with elementor forms. 
 Author: Jonathan DAHAN
 Version: 1.0.1
 Author URI: https://jonathanphoto.fr
+Domain Path: /languages
 */
 if (!defined('ABSPATH'))
 {
