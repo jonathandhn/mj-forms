@@ -29,36 +29,50 @@ class MJF_Subscribe_Action_After_Submit extends \ElementorPro\Modules\Forms\Clas
             $fields[$id] = $field['value'];
         }
 
-        $MJF_data = ['Email' => $fields['email'], 'Name' => $fields['name']];
-        $MJF_contactdata = [
-            'Data' => [
-              [
-                'Name' => $settings['MJF_name_field'],
-                'Value' => $fields['name'],
-                'Name' => $settings['MJF_firstname_field'],
-                'Value' => $fields['fname'],
-                'Name' => $settings['MJF_phone_field'],
-                'Value' => $fields['phone'],
-              ]
-            ]
-          ];
-        $MJF_data_step2 = ['Email' => $fields['email'], 'Action' => 'addforce'];
+        if (empty($fields['email']))
+        {
+            return;
+        }
 
+        $MJF_data1 = ['Email' => $fields['email']];
+        $MJF_data2 = ['Email' => $fields['email'], 'Action' => 'addforce'];
+        $MJF_contactdata1 = ['Data' => [['Name' => $settings['MJF_name_field'], 'Value' => $fields['name'], ]]];
+        $MJF_contactdata2 = ['Data' => [['Name' => $settings['MJF_firstname_field'], 'Value' => $fields['firstname'], ]]];
+        $MJF_contactdata3 = ['Data' => [['Name' => $settings['MJF_phone_field'], 'Value' => $fields['phone'], ]]];
 
-       
         $MJF_API = MAILJET_API;
         $MJF_SECRET = MAILJET_SECRET;
         $auth = base64_encode($MJF_API . ':' . $MJF_SECRET);
 
-        $MJF_data_args = ['headers' => ['Authorization' => "Basic $auth"], 'body' =>    $MJF_data, ];
-        $MJF_contactdata_args = ['method' => 'PUT', 'headers' => ['Authorization' => "Basic $auth"], 'body' =>    $MJF_contactdata, ];
-        $MJF_data_step2_args = ['headers' => ['Authorization' => "Basic $auth"], 'body' =>   $MJF_data_step2, ];
+        $MJF_data1_args = ['headers' => ['Authorization' => "Basic $auth"], 'body' => $MJF_data1, ];
+        $MJF_data2_args = ['headers' => ['Authorization' => "Basic $auth"], 'body' => $MJF_data2, ];
+        $MJF_contactdata1_args = ['method' => 'PUT', 'headers' => array(
+            'Authorization' => "Basic $auth",
+            'Content-Type' => 'application/json'
+        ) , 'body' => json_encode($MJF_contactdata1) , ];
+        $MJF_contactdata2_args = ['method' => 'PUT', 'headers' => array(
+            'Authorization' => "Basic $auth",
+            'Content-Type' => 'application/json'
+        ) , 'body' => json_encode($MJF_contactdata2) , ];
+        $MJF_contactdata3_args = ['method' => 'PUT', 'headers' => array(
+            'Authorization' => "Basic $auth",
+            'Content-Type' => 'application/json'
+        ) , 'body' => json_encode($MJF_contactdata3) , ];
 
-
-        $MJF_responsecontact = wp_remote_post('https://api.mailjet.com/v3/REST/contact',  $MJF_data_args);  
-        $MJF_responsecontactdata = wp_remote_request('https://api.mailjet.com/v3/REST/contactdata/' . $fields['email'], $MJF_contactdata_args);
-        $MJF_responsecontactslist = wp_remote_post('https://api.mailjet.com/v3/REST/contactslist/' . $settings['MJF_listID'] . '/managecontact', $MJF_data_step2_args);
-
+        $MJF_responsecontact = wp_remote_post('https://api.mailjet.com/v3/REST/contact', $MJF_data1_args);
+        $MJF_responsecontactslist = wp_remote_post('https://api.mailjet.com/v3/REST/contactslist/' . $settings['MJF_listID'] . '/managecontact', $MJF_data2_args);
+        if ($fields['name'])
+        {
+            $MJF_responsecontactdata = wp_remote_post('https://api.mailjet.com/v3/REST/contactdata/' . $fields['email'], $MJF_contactdata1_args);
+        }
+        if ($fields['firstname'])
+        {
+            $MJF_responsecontactdata = wp_remote_post('https://api.mailjet.com/v3/REST/contactdata/' . $fields['email'], $MJF_contactdata2_args);
+        }
+        if ($fields['phone'])
+        {
+            $MJF_responsecontactdata = wp_remote_post('https://api.mailjet.com/v3/REST/contactdata/' . $fields['email'], $MJF_contactdata3_args);
+        }
     }
 
     public function register_settings_section($widget)
