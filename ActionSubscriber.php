@@ -39,7 +39,8 @@ class MJF_Subscribe_Action_After_Submit extends \ElementorPro\Modules\Forms\Clas
         $MJF_contactdata1 = ['Data' => [['Name' => $settings['MJF_name_field'], 'Value' => $fields['name'], ]]];
         $MJF_contactdata2 = ['Data' => [['Name' => $settings['MJF_firstname_field'], 'Value' => $fields['firstname'], ]]];
         $MJF_contactdata3 = ['Data' => [['Name' => $settings['MJF_phone_field'], 'Value' => $fields['phone'], ]]];
-
+        $MJF_contactdata4 = ['Data' => [['Name' => $settings['MJF_custom_field'], 'Value' => $fields['custom'], ]]];
+        
         $MJF_API = MAILJET_API;
         $MJF_SECRET = MAILJET_SECRET;
         $auth = base64_encode($MJF_API . ':' . $MJF_SECRET);
@@ -58,6 +59,10 @@ class MJF_Subscribe_Action_After_Submit extends \ElementorPro\Modules\Forms\Clas
             'Authorization' => "Basic $auth",
             'Content-Type' => 'application/json'
         ) , 'body' => json_encode($MJF_contactdata3) , ];
+        $MJF_contactdata4_args = ['method' => 'PUT', 'headers' => array(
+            'Authorization' => "Basic $auth",
+            'Content-Type' => 'application/json'
+        ) , 'body' => json_encode($MJF_contactdata4) , ];
 
         $MJF_responsecontact = wp_remote_post('https://api.mailjet.com/v3/REST/contact', $MJF_data1_args);
         $MJF_responsecontactslist = wp_remote_post('https://api.mailjet.com/v3/REST/contactslist/' . $settings['MJF_listID'] . '/managecontact', $MJF_data2_args);
@@ -73,6 +78,10 @@ class MJF_Subscribe_Action_After_Submit extends \ElementorPro\Modules\Forms\Clas
         {
             $MJF_responsecontactdata = wp_remote_post('https://api.mailjet.com/v3/REST/contactdata/' . $fields['email'], $MJF_contactdata3_args);
         }
+        if ($fields['custom'])
+        {
+            $MJF_responsecontactdata = wp_remote_post('https://api.mailjet.com/v3/REST/contactdata/' . $fields['email'], $MJF_contactdata4_args);
+        }
     }
 
     public function register_settings_section($widget)
@@ -87,6 +96,8 @@ class MJF_Subscribe_Action_After_Submit extends \ElementorPro\Modules\Forms\Clas
 
         $widget->add_control('MJF_phone_field', ['label' => __('Mailjet Phone field', 'text-domain') , 'type' => \Elementor\Controls_Manager::TEXT, 'separator' => 'before', 'description' => __('Set your mailjet contact phone field.', 'text-domain') , ]);
 
+        $widget->add_control('MJF_custom_field', ['label' => __('Mailjet Custom field', 'text-domain') , 'type' => \Elementor\Controls_Manager::TEXT, 'separator' => 'before', 'description' => __('Set your own mailjet custom field.', 'text-domain') , ]);
+
         $widget->end_controls_section();
 
     }
@@ -97,5 +108,6 @@ class MJF_Subscribe_Action_After_Submit extends \ElementorPro\Modules\Forms\Clas
         unset($element['MJF_firstname_field'],);
         unset($element['MJF_name_field'],);
         unset($element['MJF_phone_field'],);
+        unset($element['MJF_custom_field'],);
     }
 }
