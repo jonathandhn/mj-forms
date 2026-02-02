@@ -5,7 +5,7 @@
  * Description: Manage your Mailjet subscribers with Elementor forms.
  * Author: Jonathan DAHAN
  * Author URI: https://www.jonathan.dhn.one
- * Version: 1.0.3
+ * Version: 1.0.4
  * Text Domain: mj-forms
  * Domain Path: /languages
  */
